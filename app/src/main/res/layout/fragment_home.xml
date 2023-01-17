@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/grayColor"
-    tools:context="jp.co.apps.workout.calendarsample.MainActivity">
+    tools:context="com.example.planalife.MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -56,7 +56,7 @@
             android:layout_weight="1"
             android:layout_marginHorizontal="1dp"
             android:textAlignment="center"
-            android:text="journée"
+            android:text="dimanche"
             android:background="@color/whiteColor"
             android:textColor="@color/redColor"/>
 
@@ -66,7 +66,7 @@
             android:layout_marginRight="1dp"
             android:layout_weight="1"
             android:background="@color/whiteColor"
-            android:text="Mois"
+            android:text="lundi"
             android:textColor="@color/blackColor"
             android:textAlignment="center"/>
 
@@ -76,7 +76,7 @@
             android:layout_weight="1"
             android:layout_marginRight="1dp"
             android:textAlignment="center"
-            android:text="Feu"
+            android:text="mardi"
             android:textColor="@color/blackColor"
             android:background="@color/whiteColor"/>
 
@@ -86,7 +86,7 @@
             android:layout_weight="1"
             android:layout_marginRight="1dp"
             android:textAlignment="center"
-            android:text="eau"
+            android:text="mer"
             android:textColor="@color/blackColor"
             android:background="@color/whiteColor"/>
 
@@ -96,7 +96,7 @@
             android:layout_weight="1"
             android:layout_marginRight="1dp"
             android:textAlignment="center"
-            android:text="bois"
+            android:text="jeudi"
             android:textColor="@color/blackColor"
             android:background="@color/whiteColor"/>
 
@@ -106,7 +106,7 @@
             android:layout_weight="1"
             android:layout_marginRight="1dp"
             android:textAlignment="center"
-            android:text="Argent"
+            android:text="vendredi"
             android:textColor="@color/blackColor"
             android:background="@color/whiteColor"/>
 
@@ -116,7 +116,7 @@
             android:layout_weight="1"
             android:layout_marginRight="1dp"
             android:textAlignment="center"
-            android:text="sol"
+            android:text="samedi"
             android:textColor="@color/blueColor"
             android:background="@color/whiteColor"/>
 
