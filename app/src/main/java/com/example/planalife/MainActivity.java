@@ -6,24 +6,31 @@ import android.os.Bundle;
 import com.example.planalife.ui.CalendarAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.planalife.databinding.ActivityMainBinding;
+import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private TextView titleText;
     private Button prevButton, nextButton;
+
     private CalendarAdapter mCalendarAdapter;
     private GridView calendarGridView;
 
@@ -33,8 +40,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         titleText = findViewById(R.id.titleText);
         prevButton = findViewById(R.id.prevButton);
+
         prevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
                 titleText.setText(mCalendarAdapter.getTitle());
             }
         });
+
+
+
         calendarGridView = findViewById(R.id.calendarGridView);
         mCalendarAdapter = new CalendarAdapter(this);
         calendarGridView.setAdapter(mCalendarAdapter);
@@ -58,5 +71,26 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        if (id == R.id.navigation_dashboard){
+            System.out.println("banco");
+            Toast.makeText(MainActivity.this , "nav click", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (id == R.id.navigation_home) {
+            System.out.println("bocan");
+            Toast.makeText(MainActivity.this , "home click", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (id == R.id.navigation_notifications) {
+            System.out.println("boom");
+            Toast.makeText(MainActivity.this , "notif click", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return false;
+    }
+
 
 }
