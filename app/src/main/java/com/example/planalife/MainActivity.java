@@ -3,6 +3,7 @@ package com.example.planalife;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+
 import com.example.planalife.ui.CalendarAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -22,12 +23,10 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.planalife.databinding.ActivityMainBinding;
-import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
+    //private ActivityMainBinding binding;
     private TextView titleText;
     private Button prevButton, nextButton;
 
@@ -36,10 +35,9 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("MissingInflatedId")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
 
         titleText = findViewById(R.id.titleText);
@@ -62,35 +60,35 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
         calendarGridView = findViewById(R.id.calendarGridView);
         mCalendarAdapter = new CalendarAdapter(this);
         calendarGridView.setAdapter(mCalendarAdapter);
         titleText.setText(mCalendarAdapter.getTitle());
 
 
-
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        int id = item.getItemId();
+    public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (id == R.id.navigation_dashboard){
-            System.out.println("banco");
-            Toast.makeText(MainActivity.this , "nav click", Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (id == R.id.navigation_home) {
-            System.out.println("bocan");
-            Toast.makeText(MainActivity.this , "home click", Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (id == R.id.navigation_notifications) {
-            System.out.println("boom");
-            Toast.makeText(MainActivity.this , "notif click", Toast.LENGTH_SHORT).show();
-            return true;
+        switch (item.getItemId()) {
+            case R.id.navigation_dashboard:
+                System.out.println("banco");
+                Toast.makeText(MainActivity.this, "nav click", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.navigation_home:
+                System.out.println("bocan");
+                Toast.makeText(MainActivity.this, "home click", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.navigation_notifications:
+                System.out.println("boom");
+                Toast.makeText(MainActivity.this, "notif click", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return false;
-    }
 
+
+    }
 
 }
