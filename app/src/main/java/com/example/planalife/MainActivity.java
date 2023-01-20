@@ -4,18 +4,26 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 
+import com.example.planalife.databinding.ActivityMainBinding;
 import com.example.planalife.ui.CalendarAdapter;
+import com.example.planalife.ui.dashboard.DashboardFragment;
+import com.example.planalife.ui.home.HomeFragment;
+import com.example.planalife.ui.notifications.NotificationsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -23,72 +31,83 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.zip.Inflater;
+
 
 public class MainActivity extends AppCompatActivity {
 
-    //private ActivityMainBinding binding;
-    private TextView titleText;
-    private Button prevButton, nextButton;
-
-    private CalendarAdapter mCalendarAdapter;
-    private GridView calendarGridView;
-
+    ActivityMainBinding binding;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
 
-        titleText = findViewById(R.id.titleText);
-        prevButton = findViewById(R.id.prevButton);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        replaceFragment(new HomeFragment());
 
-        prevButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCalendarAdapter.prevMonth();
-                titleText.setText(mCalendarAdapter.getTitle());
+        binding.bottomNavigationView.setOnItemSelectedListener(item ->{
+
+            switch (item.getItemId()) {
+                case R.id.navigation_dashboard:
+                    System.out.println("banco");
+                    replaceFragment(new testingFragment());
+                    break;
+                case R.id.navigation_home:
+                    System.out.println("bocan");
+                    replaceFragment(new HomeFragment());
+                    break;
+                case R.id.navigation_notifications:
+                    System.out.println("boom");
+                    replaceFragment(new NotificationsFragment());
+                    break;
             }
-        });
-        nextButton = findViewById(R.id.nextButton);
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCalendarAdapter.nextMonth();
-                titleText.setText(mCalendarAdapter.getTitle());
-            }
+
+            return true;
         });
 
 
-        calendarGridView = findViewById(R.id.calendarGridView);
-        mCalendarAdapter = new CalendarAdapter(this);
-        calendarGridView.setAdapter(mCalendarAdapter);
-        titleText.setText(mCalendarAdapter.getTitle());
+
 
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.navigation_dashboard:
-                System.out.println("banco");
-                Toast.makeText(MainActivity.this, "nav click", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.navigation_home:
-                System.out.println("bocan");
-                Toast.makeText(MainActivity.this, "home click", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.navigation_notifications:
-                System.out.println("boom");
-                Toast.makeText(MainActivity.this, "notif click", Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
+    private void replaceFragment(Fragment fragment){
+        FragmentManager fragmentmanager = getSupportFragmentManager();
+        FragmentTransaction fragmenttransaction = fragmentmanager.beginTransaction();
+        fragmenttransaction.replace(R.id.frame_out, fragment);
 
     }
+
+
+
+    private BottomNavigationView.OnItemSelectedListener navListener =
+            new BottomNavigationView.OnItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    Fragment selectedFragment = null;
+
+                    switch (item.getItemId()) {
+                        case R.id.navigation_dashboard:
+                            selectedFragment = new DashboardFragment();
+                            System.out.println("banco");
+                            break;
+                        case R.id.navigation_home:
+                            selectedFragment = new HomeFragment();
+                            System.out.println("bocan");
+                            break;
+                        case R.id.navigation_notifications:
+                            selectedFragment = new NotificationsFragment();
+                            System.out.println("boom");
+                            break;
+                    }
+
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container,
+                            selectedFragment).commit();
+
+                    return true;
+                }
+            };
 
 }
