@@ -5,33 +5,14 @@ import android.os.Bundle;
 
 
 import com.example.planalife.databinding.ActivityMainBinding;
-import com.example.planalife.ui.CalendarAdapter;
-import com.example.planalife.ui.dashboard.DashboardFragment;
+import com.example.planalife.ui.Calendar.CalendarFragment;
 import com.example.planalife.ui.home.HomeFragment;
-import com.example.planalife.ui.notifications.NotificationsFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.example.planalife.ui.note.NotificationsFragment;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.GridView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.zip.Inflater;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -51,15 +32,15 @@ public class MainActivity extends AppCompatActivity {
 
             switch (item.getItemId()) {
                 case R.id.navigation_dashboard:
-                    System.out.println("banco");
-                    replaceFragment(new testingFragment());
+                    System.out.println("calendar");
+                    replaceFragment(new CalendarFragment());
                     break;
                 case R.id.navigation_home:
-                    System.out.println("bocan");
+                    System.out.println("home");
                     replaceFragment(new HomeFragment());
                     break;
                 case R.id.navigation_notifications:
-                    System.out.println("boom");
+                    System.out.println("note");
                     replaceFragment(new NotificationsFragment());
                     break;
             }
@@ -67,47 +48,25 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
+    }
 
 
 
-
+    private void replaceTestingFragment(testingFragment fragment, Fragment frag){
+        FragmentManager fragmentmanager = getSupportFragmentManager();
+        FragmentTransaction fragmenttransaction = fragmentmanager.beginTransaction();
+        fragmenttransaction.replace(R.id.frame_out, frag);
+        fragmenttransaction.commit();
     }
 
     private void replaceFragment(Fragment fragment){
         FragmentManager fragmentmanager = getSupportFragmentManager();
         FragmentTransaction fragmenttransaction = fragmentmanager.beginTransaction();
         fragmenttransaction.replace(R.id.frame_out, fragment);
-
+        fragmenttransaction.commit();
     }
 
 
 
-    private BottomNavigationView.OnItemSelectedListener navListener =
-            new BottomNavigationView.OnItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    Fragment selectedFragment = null;
-
-                    switch (item.getItemId()) {
-                        case R.id.navigation_dashboard:
-                            selectedFragment = new DashboardFragment();
-                            System.out.println("banco");
-                            break;
-                        case R.id.navigation_home:
-                            selectedFragment = new HomeFragment();
-                            System.out.println("bocan");
-                            break;
-                        case R.id.navigation_notifications:
-                            selectedFragment = new NotificationsFragment();
-                            System.out.println("boom");
-                            break;
-                    }
-
-                    getSupportFragmentManager().beginTransaction().replace(R.id.container,
-                            selectedFragment).commit();
-
-                    return true;
-                }
-            };
 
 }
