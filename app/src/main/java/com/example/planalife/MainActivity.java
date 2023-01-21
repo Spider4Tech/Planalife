@@ -5,12 +5,11 @@ import android.os.Bundle;
 
 
 import com.example.planalife.databinding.ActivityMainBinding;
+import com.example.planalife.ui.Calendar.CalendarFragment;
 import com.example.planalife.ui.CalendarAdapter;
-import com.example.planalife.ui.dashboard.DashboardFragment;
 import com.example.planalife.ui.home.HomeFragment;
-import com.example.planalife.ui.notifications.NotificationsFragment;
+import com.example.planalife.ui.note.NotificationsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -51,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
             switch (item.getItemId()) {
                 case R.id.navigation_dashboard:
-                    replaceFragment(new testingFragment());
+                    replaceFragment(new CalendarFragment());
                     break;
                 case R.id.navigation_home:
                     replaceFragment(new HomeFragment());
