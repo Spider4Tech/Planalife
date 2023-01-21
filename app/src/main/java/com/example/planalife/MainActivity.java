@@ -51,15 +51,12 @@ public class MainActivity extends AppCompatActivity {
 
             switch (item.getItemId()) {
                 case R.id.navigation_dashboard:
-                    System.out.println("banco");
                     replaceFragment(new testingFragment());
                     break;
                 case R.id.navigation_home:
-                    System.out.println("bocan");
                     replaceFragment(new HomeFragment());
                     break;
                 case R.id.navigation_notifications:
-                    System.out.println("boom");
                     replaceFragment(new NotificationsFragment());
                     break;
             }
