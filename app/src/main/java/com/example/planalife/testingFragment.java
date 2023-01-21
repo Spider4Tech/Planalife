@@ -29,12 +29,6 @@ public class testingFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private TextView titleText;
-    private Button prevButton, nextButton;
-
-    private CalendarAdapter mCalendarAdapter;
-    private GridView calendarGridView;
-
     public testingFragment(){
 
 

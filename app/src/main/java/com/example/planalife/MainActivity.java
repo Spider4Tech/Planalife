@@ -77,37 +77,9 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentmanager = getSupportFragmentManager();
         FragmentTransaction fragmenttransaction = fragmentmanager.beginTransaction();
         fragmenttransaction.replace(R.id.frame_out, fragment);
+        fragmenttransaction.commit();
 
     }
 
-
-
-    private BottomNavigationView.OnItemSelectedListener navListener =
-            new BottomNavigationView.OnItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    Fragment selectedFragment = null;
-
-                    switch (item.getItemId()) {
-                        case R.id.navigation_dashboard:
-                            selectedFragment = new DashboardFragment();
-                            System.out.println("banco");
-                            break;
-                        case R.id.navigation_home:
-                            selectedFragment = new HomeFragment();
-                            System.out.println("bocan");
-                            break;
-                        case R.id.navigation_notifications:
-                            selectedFragment = new NotificationsFragment();
-                            System.out.println("boom");
-                            break;
-                    }
-
-                    getSupportFragmentManager().beginTransaction().replace(R.id.container,
-                            selectedFragment).commit();
-
-                    return true;
-                }
-            };
-
 }
+
