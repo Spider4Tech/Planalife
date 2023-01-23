@@ -1,5 +1,7 @@
 package com.example.planalife.ui.home;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -20,6 +22,8 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -55,19 +59,25 @@ public class HomeFragment extends Fragment {
     }
 
     private void saveText() {
-        String text = textBox.getText().toString();
-        String fileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-        fileName += "/saved_text.txt";
+        final int REQUEST_WRITE_STORAGE_PERMISSION = 1;
 
-        File file = new File(fileName);
-        try {
-            FileWriter writer = new FileWriter(file);
-            writer.append(text);
-            writer.flush();
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE_PERMISSION);
+        } else {
+            String text = textBox.getText().toString();
+            File file = new File(requireContext().getExternalFilesDir(null), "saved_text.txt");
+            try {
+                FileWriter writer = new FileWriter(file);
+                writer.append(text);
+                writer.flush();
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
     @Override
