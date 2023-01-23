@@ -1,5 +1,7 @@
 package com.example.planalife.ui.note;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +11,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -51,19 +55,30 @@ public class NotificationsFragment extends Fragment {
     }
 
     private void startRecording() {
-        recorder = new MediaRecorder();
-        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        recorder.setOutputFile(fileName);
-        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        final int REQUEST_RECORD_AUDIO_PERMISSION = 1;
+        // Vérifie si la permission d'enregistrement audio a été accordée
+        if (ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
 
-        try {
-            recorder.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
+            // Demande la permission d'enregistrement audio à l'utilisateur
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.RECORD_AUDIO}, REQUEST_RECORD_AUDIO_PERMISSION);
+
+        } else {
+            // La permission a déjà été accordée, on peut démarrer l'enregistrement
+            recorder = new MediaRecorder();
+            recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+            recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+            recorder.setOutputFile(fileName);
+            recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+
+            try {
+                recorder.prepare();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            recorder.start();
         }
-
-        recorder.start();
     }
 
     private void stopRecording() {
