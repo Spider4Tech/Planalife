@@ -41,20 +41,23 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
-    EditText textBox;
-    Button saveButton;
-    ListView listView;
+
+    Button addButton;
+    EditText inputText;
+    ListView todoList;
     ArrayList<String> list;
+    TodoAdapter todoAdapter;
 
-    public void onClickAdd(View v){
-
-        String text = textBox.getText().toString();
+    public void onAddItem(View view){
+        String text = inputText.getText().toString();
 
         if(!text.equals("")){
+
             list.add(text);
-            ArrayAdapter adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,list);
-            listView.setAdapter(adapter);
-            textBox.setText("");
+
+            todoList.setAdapter(todoAdapter);
+
+            inputText.setText("");
         }
     }
 
@@ -62,18 +65,20 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        saveButton = view.findViewById(R.id.save_button);
-        textBox = view.findViewById(R.id.text_box);
-        listView = view.findViewById(R.id.listView);
+        addButton = view.findViewById(R.id.save_button);
+        inputText = view.findViewById(R.id.text_box);
+        todoList = view.findViewById(R.id.listView);
         list = new ArrayList<>();
 
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        todoAdapter= new TodoAdapter(list, getContext());
+        todoList.setAdapter(todoAdapter);
+
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickAdd(v);
+                onAddItem(v);
             }
         });
 
