@@ -10,9 +10,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.os.Bundle;
 
@@ -34,50 +36,48 @@ import com.example.planalife.ui.CalendarAdapter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
-    private EditText textBox;
-    private Button saveButton;
+    EditText textBox;
+    Button saveButton;
+    ListView listView;
+    ArrayList<String> list;
+
+    public void onClickAdd(View v){
+
+        String text = textBox.getText().toString();
+
+        if(!text.equals("")){
+            list.add(text);
+            ArrayAdapter adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,list);
+            listView.setAdapter(adapter);
+            textBox.setText("");
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        textBox = (EditText) view.findViewById(R.id.text_box);
-        saveButton = (Button) view.findViewById(R.id.save_button);
+
+        saveButton = view.findViewById(R.id.save_button);
+        textBox = view.findViewById(R.id.text_box);
+        listView = view.findViewById(R.id.listView);
+        list = new ArrayList<>();
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveText();
+                onClickAdd(v);
             }
         });
 
         return view;
-    }
-
-    private void saveText() {
-        final int REQUEST_WRITE_STORAGE_PERMISSION = 1;
-
-        if (ContextCompat.checkSelfPermission(getContext(),
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE_PERMISSION);
-        } else {
-            String text = textBox.getText().toString();
-            File file = new File(requireContext().getExternalFilesDir(null), "saved_text.txt");
-            try {
-                FileWriter writer = new FileWriter(file);
-                writer.append(text);
-                writer.flush();
-                writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
     }
 
     @Override
