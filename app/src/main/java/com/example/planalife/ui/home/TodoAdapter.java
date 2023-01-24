@@ -13,6 +13,10 @@ import android.widget.TextView;
 
 import com.example.planalife.R;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class TodoAdapter extends BaseAdapter {
@@ -22,6 +26,18 @@ public class TodoAdapter extends BaseAdapter {
     public TodoAdapter(ArrayList todoList, Context context) {
         this.todoList = todoList;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        try {
+            FileInputStream fis = context.openFileInput("data.txt");
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+            while ((line = br.readLine()) != null) {
+                todoList.add(line);
+            }
+            fis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -47,6 +63,9 @@ public class TodoAdapter extends BaseAdapter {
 
         completeButton.setText("en cours");
         todoText.setText(todoList.get(position).toString());
+
+
+
 
 
         completeButton.setOnClickListener(new View.OnClickListener() {

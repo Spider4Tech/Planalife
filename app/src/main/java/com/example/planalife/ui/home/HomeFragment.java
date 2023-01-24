@@ -113,12 +113,12 @@ public class HomeFragment extends Fragment {
             ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE_PERMISSION);
         } else {
             String text = inputText.getText().toString();
-            File file = new File(requireContext().getExternalFilesDir(null), "saved_text.txt");
+            File file = new File(requireContext().getFilesDir(), "data.txt");
             try {
                 FileWriter writer = new FileWriter(file);
                 writer.append(text);
                 writer.flush();
-                System.out.println("reg");
+                System.out.println(requireContext().getFilesDir());
                 writer.close();
             } catch (IOException e) {
                 e.printStackTrace();
