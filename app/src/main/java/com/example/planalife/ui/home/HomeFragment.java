@@ -48,16 +48,18 @@ public class HomeFragment extends Fragment {
     ArrayList<String> list;
     TodoAdapter todoAdapter;
 
-    public void onAddItem(View view){
+    public void onAddItem(View view) {
         String text = inputText.getText().toString();
 
-        if(!text.equals("")){
+        if (!text.equals("")) {
 
             list.add(text);
 
             todoList.setAdapter(todoAdapter);
 
             inputText.setText("");
+
+
         }
     }
 
@@ -72,13 +74,21 @@ public class HomeFragment extends Fragment {
         todoList = view.findViewById(R.id.listView);
         list = new ArrayList<>();
 
-        todoAdapter= new TodoAdapter(list, getContext());
+        todoAdapter = new TodoAdapter(list, getContext());
         todoList.setAdapter(todoAdapter);
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+
+
+                if (!inputText.getText().toString().equals("")) {
+                    saveText();
+                } else {
+                    System.out.println(inputText.getText().toString().length());
+                    System.out.println(inputText.getText().toString());
+                }
                 onAddItem(v);
             }
 
@@ -91,5 +101,28 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private void saveText() {
+        final int REQUEST_WRITE_STORAGE_PERMISSION = 1;
+
+
+        if (ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE_PERMISSION);
+        } else {
+            String text = inputText.getText().toString();
+            File file = new File(requireContext().getExternalFilesDir(null), "saved_text.txt");
+            try {
+                FileWriter writer = new FileWriter(file);
+                writer.append(text);
+                writer.flush();
+                System.out.println("reg");
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

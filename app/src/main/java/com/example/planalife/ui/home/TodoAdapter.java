@@ -46,24 +46,8 @@ public class TodoAdapter extends BaseAdapter {
         Button completeButton = view.findViewById(R.id.completeButton);
 
         completeButton.setText("en cours");
-        System.out.println(todoList.get(position).toString());
         todoText.setText(todoList.get(position).toString());
 
-//        if (ContextCompat.checkSelfPermission(getContext(),
-//                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-//
-//            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE_PERMISSION);
-//        } else {
-//            String text = textBox.getText().toString();
-//            File file = new File(requireContext().getExternalFilesDir(null), "saved_text.txt");
-//            try {
-//                FileWriter writer = new FileWriter(file);
-//                writer.append(text);
-//                writer.flush();
-//                writer.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
 
         completeButton.setOnClickListener(new View.OnClickListener() {
             @Override
