@@ -78,8 +78,10 @@ public class HomeFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 onAddItem(v);
             }
+
         });
 
         return view;
