@@ -97,25 +97,28 @@ public class TodoAdapter extends BaseAdapter {
                         System.out.println(selectedItemPosition);
                         todoList.remove(selectedItemPosition);
                         notifyDataSetChanged();
+
                         try {
-                            FileInputStream fis = context.openFileInput("data.txt");
+                            FileInputStream fis = parent.getContext().openFileInput("data.txt");
                             InputStreamReader isr = new InputStreamReader(fis);
                             BufferedReader br = new BufferedReader(isr);
                             StringBuilder sb = new StringBuilder();
                             String line;
+                            int currentLine = 0;
                             while ((line = br.readLine()) != null) {
-                                System.out.println(line);
-                                if (!line.equals(selectedItemPosition)) {
+                                if (currentLine != selectedItemPosition) {
                                     sb.append(line).append("\n");
                                 }
+                                currentLine++;
                             }
                             fis.close();
 
-                            File file = new File(context.getFilesDir(), "data.txt");
+                            File file = new File(parent.getContext().getFilesDir(), "data.txt");
                             FileWriter writer = new FileWriter(file, false);
                             writer.write(sb.toString());
                             writer.flush();
                             writer.close();
+
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
