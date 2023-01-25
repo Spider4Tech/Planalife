@@ -56,6 +56,7 @@ public class NotificationsFragment extends Fragment {
 
     private void startRecording() {
         final int REQUEST_RECORD_AUDIO_PERMISSION = 1;
+        final int REQUEST_WRITE_STORAGE_PERMISSION = 1;
         // Vérifie si la permission d'enregistrement audio a été accordée
         if (ContextCompat.checkSelfPermission(getContext(),
                 Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
@@ -63,6 +64,10 @@ public class NotificationsFragment extends Fragment {
             // Demande la permission d'enregistrement audio à l'utilisateur
             ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.RECORD_AUDIO}, REQUEST_RECORD_AUDIO_PERMISSION);
 
+        } else if (ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE_PERMISSION);
         } else {
             // La permission a déjà été accordée, on peut démarrer l'enregistrement
             recorder = new MediaRecorder();
