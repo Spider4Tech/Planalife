@@ -1,6 +1,7 @@
 package com.example.planalife.ui.home;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
@@ -33,9 +34,14 @@ import com.example.planalife.R;
 import com.example.planalife.databinding.FragmentHomeBinding;
 import com.example.planalife.ui.CalendarAdapter;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
@@ -85,9 +91,9 @@ public class HomeFragment extends Fragment {
 
                 if (!inputText.getText().toString().equals("")) {
                     saveText();
+
                 } else {
-                    System.out.println(inputText.getText().toString().length());
-                    System.out.println(inputText.getText().toString());
+                    deleteLine();
                 }
                 onAddItem(v);
             }
@@ -103,6 +109,16 @@ public class HomeFragment extends Fragment {
         binding = null;
     }
 
+    public boolean deleteLine() {
+        File file = new File(requireContext().getFilesDir(), "data.txt");
+        if (file.exists()) {
+            file.delete();
+            System.out.println("delete");
+        }
+        return true;
+
+    }
+
     private void saveText() {
         final int REQUEST_WRITE_STORAGE_PERMISSION = 1;
 
@@ -115,13 +131,35 @@ public class HomeFragment extends Fragment {
             String text = inputText.getText().toString();
             File file = new File(requireContext().getFilesDir(), "data.txt");
             try {
-                FileWriter writer = new FileWriter(file);
-                writer.append(text);
-                writer.flush();
+                FileInputStream fis = getContext().openFileInput("data.txt");
+                InputStreamReader isr = new InputStreamReader(fis);
+                BufferedReader br = new BufferedReader(isr);
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line).append("\n");
+                    System.out.println(line);
+                }
+                fis.close();
+
+                //File file = new File(requireContext().getFilesDir(), "data2.txt");
                 System.out.println(requireContext().getFilesDir());
+                FileWriter writer = new FileWriter(file, false);
+                sb.append(text).append("\n");
+                writer.append(sb.toString());
+                writer.flush();
                 writer.close();
+
             } catch (IOException e) {
                 e.printStackTrace();
+
+                if (!file.exists()){
+                    try {
+                        file.createNewFile();
+                    } catch (IOException et) {
+                        et.printStackTrace();
+                    }
+                }
             }
         }
     }
