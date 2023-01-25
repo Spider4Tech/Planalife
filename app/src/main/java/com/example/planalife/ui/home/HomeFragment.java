@@ -93,7 +93,7 @@ public class HomeFragment extends Fragment {
                     saveText();
 
                 } else {
-                    deleteLine();
+                    deleteLine(); // à virer en fin de dev
                 }
                 onAddItem(v);
             }

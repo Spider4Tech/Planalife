@@ -14,7 +14,9 @@ import android.widget.TextView;
 import com.example.planalife.R;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -64,8 +66,7 @@ public class TodoAdapter extends BaseAdapter {
 
         completeButton.setText("en cours");
         todoText.setText(todoList.get(position).toString());
-
-
+        Context context = parent.getContext();
 
 
 
@@ -96,7 +97,34 @@ public class TodoAdapter extends BaseAdapter {
                         System.out.println(selectedItemPosition);
                         todoList.remove(selectedItemPosition);
                         notifyDataSetChanged();
+                        try {
+                            FileInputStream fis = context.openFileInput("data.txt");
+                            InputStreamReader isr = new InputStreamReader(fis);
+                            BufferedReader br = new BufferedReader(isr);
+                            StringBuilder sb = new StringBuilder();
+                            String line;
+                            while ((line = br.readLine()) != null) {
+                                System.out.println(line);
+                                if (!line.equals(selectedItemPosition)) {
+                                    sb.append(line).append("\n");
+                                }
+                            }
+                            fis.close();
+
+                            File file = new File(context.getFilesDir(), "data.txt");
+                            FileWriter writer = new FileWriter(file, false);
+                            writer.write(sb.toString());
+                            writer.flush();
+                            writer.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+
                     }
+
+
+
                 });
                 builder.setNegativeButton("Non", new DialogInterface.OnClickListener() {
                     @Override
