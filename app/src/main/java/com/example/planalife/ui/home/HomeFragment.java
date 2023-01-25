@@ -93,7 +93,7 @@ public class HomeFragment extends Fragment {
                     saveText();
 
                 } else {
-                    deleteLine(); // à virer en fin de dev
+                    deleteLine(); //Todo à virer en fin de dev
                 }
                 onAddItem(v);
             }
@@ -138,11 +138,9 @@ public class HomeFragment extends Fragment {
                 String line;
                 while ((line = br.readLine()) != null) {
                     sb.append(line).append("\n");
-                    System.out.println(line);
                 }
                 fis.close();
 
-                //File file = new File(requireContext().getFilesDir(), "data2.txt");
                 System.out.println(requireContext().getFilesDir());
                 FileWriter writer = new FileWriter(file, false);
                 sb.append(text).append("\n");

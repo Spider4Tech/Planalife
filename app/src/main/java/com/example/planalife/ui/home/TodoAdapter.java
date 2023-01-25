@@ -34,7 +34,6 @@ public class TodoAdapter extends BaseAdapter {
             BufferedReader br = new BufferedReader(isr);
             String line;
             while ((line = br.readLine()) != null) {
-                System.out.println(line);
                 todoList.add(line);
             }
             fis.close();
@@ -94,7 +93,6 @@ public class TodoAdapter extends BaseAdapter {
                 builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        System.out.println(selectedItemPosition);
                         todoList.remove(selectedItemPosition);
                         notifyDataSetChanged();
 

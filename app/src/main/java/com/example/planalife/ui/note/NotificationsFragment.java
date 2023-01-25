@@ -4,11 +4,13 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -27,13 +29,22 @@ public class NotificationsFragment extends Fragment {
     private Button startButton, stopButton;
 
     private MediaRecorder recorder;
-    private String fileName = null;
+    private String fileName = "pomme";
+
+    private CountDownTimer timer;
+
+    long secondsRemaining;
+
+    private Toast toast;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_notifications, container, false);
+
+        fileName = getActivity().getFilesDir().getAbsolutePath();
+        fileName += "/audio_recording.3gp";
 
         startButton = (Button) view.findViewById(R.id.start_recording_button);
         stopButton = (Button) view.findViewById(R.id.stop_recording_button);
@@ -83,14 +94,43 @@ public class NotificationsFragment extends Fragment {
             }
 
             recorder.start();
+            timer = new CountDownTimer(60000, 1000) {
+                public void onTick(long millisUntilFinished) {
+
+                    secondsRemaining = millisUntilFinished / 1000;
+                    toast = Toast.makeText(getContext(), "Temps restant: " + secondsRemaining + " secondes", Toast.LENGTH_SHORT);
+                    toast.show();
+
+                }
+                public void onFinish() {
+                    stopRecording();
+                }
+            }.start();
         }
     }
 
     private void stopRecording() {
+
+        System.out.println("pomme pote");
+
         if (recorder != null) {
+
+            System.out.println("poire");
             recorder.stop();
             recorder.release();
             recorder = null;
+
+            if (timer != null) {
+                System.out.println("pute");
+                timer.cancel();
+            }
+
+            if (toast != null) {
+                System.out.println("pomme");
+                toast.cancel();
+            }
+
+
         }
     }
 
