@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -57,15 +58,14 @@ public class HomeFragment extends Fragment {
     public void onAddItem(View view) {
         String text = inputText.getText().toString();
 
-        if (!text.equals("")) {
+        if (!text.equals("") && text.length() <= 30) {
 
             list.add(text);
-
             todoList.setAdapter(todoAdapter);
-
             inputText.setText("");
-
-
+        }
+        else {
+            Toast.makeText(getActivity(), "TODO trop long.", Toast.LENGTH_SHORT).show();
         }
     }
 
