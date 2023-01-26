@@ -24,6 +24,14 @@
             android:text="Start Recording" />
 
         <Button
+            android:id="@+id/lecture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_weight="1"
+            android:text="Button" />
+
+        <Button
             android:id="@+id/stop_recording_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

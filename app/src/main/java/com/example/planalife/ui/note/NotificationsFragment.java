@@ -1,7 +1,9 @@
 package com.example.planalife.ui.note;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -26,7 +28,7 @@ import java.io.IOException;
 public class NotificationsFragment extends Fragment {
 
     private FragmentNotificationsBinding binding;
-    private Button startButton, stopButton;
+    private Button startButton, stopButton, lecture;
 
     private MediaRecorder recorder;
     private String fileName = "pomme";
@@ -37,6 +39,7 @@ public class NotificationsFragment extends Fragment {
 
     private Toast toast;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,11 +51,31 @@ public class NotificationsFragment extends Fragment {
 
         startButton = (Button) view.findViewById(R.id.start_recording_button);
         stopButton = (Button) view.findViewById(R.id.stop_recording_button);
+        lecture = (Button) view.findViewById(R.id.lecture);
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startRecording();
+            }
+        });
+
+        lecture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String filePath = getActivity().getFilesDir().getAbsolutePath() + "/audio_recording.3gp";
+                MediaPlayer mediaPlayer = new MediaPlayer();
+                try {
+                    mediaPlayer.setDataSource(filePath);
+                    mediaPlayer.prepare();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                mediaPlayer.start();
+
+
             }
         });
 
