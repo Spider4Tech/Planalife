@@ -56,13 +56,17 @@ public class NotificationsFragment extends Fragment {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 startRecording();
+
             }
         });
 
         lecture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                System.out.println("truite");
 
                 String filePath = getActivity().getFilesDir().getAbsolutePath() + "/audio_recording.3gp";
                 MediaPlayer mediaPlayer = new MediaPlayer();
