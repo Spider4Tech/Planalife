@@ -46,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         replaceFragment(new HomeFragment());
 
+        BottomNavigationView bottomBar = findViewById(R.id.bottomNavigationView);
+        bottomBar.setSelectedItemId(R.id.navigation_home);
+
         binding.bottomNavigationView.setOnItemSelectedListener(item ->{
 
             switch (item.getItemId()) {
