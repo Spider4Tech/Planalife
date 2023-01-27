@@ -21,6 +21,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,12 +31,15 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Locale;
 import java.util.zip.Inflater;
 
 
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
+
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -72,13 +76,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void replaceFragment(Fragment fragment){
+    public void replaceFragment(Fragment fragment){
         FragmentManager fragmentmanager = getSupportFragmentManager();
         FragmentTransaction fragmenttransaction = fragmentmanager.beginTransaction();
         fragmenttransaction.replace(R.id.frame_out, fragment);
         fragmenttransaction.commit();
 
     }
+
 
 }
 

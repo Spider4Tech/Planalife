@@ -91,6 +91,11 @@ public class TodoAdapter extends BaseAdapter {
                 builder.setTitle("Confirmation de suppression");
                 builder.setMessage("Êtes-vous sûr de vouloir supprimer cet élément?");
                 builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+
+                    public void refresh() {
+                        notifyDataSetChanged();
+                    }
+
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         todoList.remove(selectedItemPosition);

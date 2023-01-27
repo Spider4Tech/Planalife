@@ -1,45 +1,29 @@
 package com.example.planalife.ui.home;
 
 import android.Manifest;
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.os.Bundle;
 
-import android.view.View;
-import android.widget.Button;
-import android.widget.GridView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
+import com.example.planalife.MainActivity;
 import com.example.planalife.R;
 import com.example.planalife.databinding.FragmentHomeBinding;
-import com.example.planalife.ui.CalendarAdapter;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -49,7 +33,7 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
 
-    Button addButton;
+    Button addButton, deleteButton;
     EditText inputText;
     ListView todoList;
     ArrayList<String> list;
@@ -69,6 +53,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -76,6 +61,7 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         addButton = view.findViewById(R.id.save_button);
+        deleteButton = view.findViewById(R.id.delete_button);
         inputText = view.findViewById(R.id.text_box);
         todoList = view.findViewById(R.id.listView);
         list = new ArrayList<>();
@@ -83,21 +69,19 @@ public class HomeFragment extends Fragment {
         todoAdapter = new TodoAdapter(list, getContext());
         todoList.setAdapter(todoAdapter);
 
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        addButton.setOnClickListener(v -> {
 
+            if (!inputText.getText().toString().equals("")) {
+                saveText();
 
-
-                if (!inputText.getText().toString().equals("")) {
-                    saveText();
-
-                } else {
-                    deleteLine(); //Todo à virer en fin de dev
-                }
-                onAddItem(v);
+            } else {
+                deleteAll(); //Todo à virer en fin de dev
             }
+            onAddItem(v);
+        });
 
+        deleteButton.setOnClickListener(v -> {
+            deleteAll();
         });
 
         return view;
@@ -109,11 +93,18 @@ public class HomeFragment extends Fragment {
         binding = null;
     }
 
-    public boolean deleteLine() {
+    public boolean deleteAll() {
         File file = new File(requireContext().getFilesDir(), "data.txt");
         if (file.exists()) {
             file.delete();
             System.out.println("delete");
+            try {
+                file.createNewFile();
+            } catch (IOException et) {
+                et.printStackTrace();
+            }
+            list.clear();
+            todoAdapter.notifyDataSetChanged();
         }
         return true;
 

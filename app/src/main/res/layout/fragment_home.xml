@@ -21,12 +21,19 @@
 
     <Button
         android:id="@+id/save_button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="57dp"
         android:text="save" />
+
+    <Button
+        android:id="@+id/delete_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="250dp"
+        android:layout_marginTop="57dp"
+        android:text="Delete All" />
 
     <ListView
         android:id="@+id/listView"
