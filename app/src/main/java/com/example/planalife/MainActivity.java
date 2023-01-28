@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(new HomeFragment());
                     break;
                 case R.id.navigation_notifications:
-                    replaceFragment(new NotificationsFragment());
+                    replaceFragment(new testingFragment());
                     break;
             }
 
