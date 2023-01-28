@@ -18,19 +18,18 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.planalife.R;
-import com.example.planalife.databinding.FragmentNotificationsBinding;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class NotificationsFragment extends Fragment {
-
-    private FragmentNotificationsBinding binding;
-    private Button startButton, stopButton, lecture;
 
     private MediaRecorder recorder;
     private String fileName = "pomme";
 
     private CountDownTimer timer;
+
+    NoteAdaptater noteAdaptater;
 
     long secondsRemaining;
 
@@ -43,49 +42,37 @@ public class NotificationsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_notifications, container, false);
 
-        fileName = getActivity().getFilesDir().getAbsolutePath();
+        fileName = Objects.requireNonNull(getActivity()).getFilesDir().getAbsolutePath();
         fileName += "/audio_recording.3gp";
 
-        startButton = (Button) view.findViewById(R.id.start_recording_button);
-        stopButton = (Button) view.findViewById(R.id.stop_recording_button);
-        lecture = (Button) view.findViewById(R.id.lecture);
+        Button startButton = view.findViewById(R.id.start_recording_button);
+        Button stopButton = view.findViewById(R.id.stop_recording_button);
+        Button lecture = view.findViewById(R.id.lecture);
 
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        noteAdaptater = new NoteAdaptater(Objects.requireNonNull(getContext()));
 
-                startRecording();
 
+        startButton.setOnClickListener(v -> startRecording());
+
+        lecture.setOnClickListener(v -> {
+
+            System.out.println("truite");
+
+            String filePath = getActivity().getFilesDir().getAbsolutePath() + "/audio_recording.3gp";
+            MediaPlayer mediaPlayer = new MediaPlayer();
+            try {
+                mediaPlayer.setDataSource(filePath);
+                mediaPlayer.prepare();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
+
+            mediaPlayer.start();
+
+
         });
 
-        lecture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                System.out.println("truite");
-
-                String filePath = getActivity().getFilesDir().getAbsolutePath() + "/audio_recording.3gp";
-                MediaPlayer mediaPlayer = new MediaPlayer();
-                try {
-                    mediaPlayer.setDataSource(filePath);
-                    mediaPlayer.prepare();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-                mediaPlayer.start();
-
-
-            }
-        });
-
-        stopButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                stopRecording();
-            }
-        });
+        stopButton.setOnClickListener(v -> stopRecording());
         return view;
     }
 
@@ -93,7 +80,7 @@ public class NotificationsFragment extends Fragment {
         final int REQUEST_RECORD_AUDIO_PERMISSION = 1;
         final int REQUEST_WRITE_STORAGE_PERMISSION = 1;
         // Vérifie si la permission d'enregistrement audio a été accordée
-        if (ContextCompat.checkSelfPermission(getContext(),
+        if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getContext()),
                 Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
 
             // Demande la permission d'enregistrement audio à l'utilisateur
@@ -162,7 +149,6 @@ public class NotificationsFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
     }
 
 

@@ -7,22 +7,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.planalife.R;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 public class CalendarAdapter extends BaseAdapter {
-    private List<Date> dateArray = new ArrayList();
-    private Context mContext;
-    private DateManager mDateManager;
-    private LayoutInflater mLayoutInflater;
+    private List<Date> dateArray;
+    private final Context mContext;
+    private final DateManager mDateManager;
+    private final LayoutInflater mLayoutInflater;
 
     //Après avoir développé la cellule personnalisée, définissez Wiget ici
     private static class ViewHolder {

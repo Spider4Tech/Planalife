@@ -10,16 +10,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.example.planalife.MainActivity;
 import com.example.planalife.R;
-import com.example.planalife.databinding.FragmentHomeBinding;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,10 +25,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class HomeFragment extends Fragment {
-
-    private FragmentHomeBinding binding;
 
     Button addButton, deleteButton;
     EditText inputText;
@@ -39,7 +35,7 @@ public class HomeFragment extends Fragment {
     ArrayList<String> list;
     TodoAdapter todoAdapter;
 
-    public void onAddItem(View view) {
+    public void onAddItem() {
         String text = inputText.getText().toString();
 
         if (!text.equals("") && text.length() <= 30) {
@@ -66,7 +62,7 @@ public class HomeFragment extends Fragment {
         todoList = view.findViewById(R.id.listView);
         list = new ArrayList<>();
 
-        todoAdapter = new TodoAdapter(list, getContext());
+        todoAdapter = new TodoAdapter(list, Objects.requireNonNull(getContext()));
         todoList.setAdapter(todoAdapter);
 
         addButton.setOnClickListener(v -> {
@@ -77,12 +73,10 @@ public class HomeFragment extends Fragment {
             } else {
                 deleteAll(); //Todo à virer en fin de dev
             }
-            onAddItem(v);
+            onAddItem();
         });
 
-        deleteButton.setOnClickListener(v -> {
-            deleteAll();
-        });
+        deleteButton.setOnClickListener(v -> deleteAll());
 
         return view;
     }
@@ -90,10 +84,9 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
     }
 
-    public boolean deleteAll() {
+    public void deleteAll() {
         File file = new File(requireContext().getFilesDir(), "data.txt");
         if (file.exists()) {
             file.delete();
@@ -106,7 +99,6 @@ public class HomeFragment extends Fragment {
             list.clear();
             todoAdapter.notifyDataSetChanged();
         }
-        return true;
 
     }
 
@@ -114,7 +106,7 @@ public class HomeFragment extends Fragment {
         final int REQUEST_WRITE_STORAGE_PERMISSION = 1;
 
 
-        if (ContextCompat.checkSelfPermission(getContext(),
+        if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getContext()),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE_PERMISSION);
