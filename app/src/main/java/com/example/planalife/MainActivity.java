@@ -11,7 +11,14 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.planalife.databinding.ActivityMainBinding;
 import com.example.planalife.ui.Calendar.CalendarFragment;
 import com.example.planalife.ui.home.HomeFragment;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.games.Games;
+import com.google.android.gms.games.GamesClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +30,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+
+
+
+        // Initialisation de Google Play Game Services
+//        GoogleSignIn.getClient(this,
+//                GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN);
+//        GoogleSignInAccount mGoogleSignInAccount = GoogleSignIn.getLastSignedInAccount(this);
+
+//        GamesClient mGamesClient = Games.getGamesClient(this, Objects.requireNonNull(mGoogleSignInAccount));
+//        mGamesClient.setViewForPopups(findViewById(android.R.id.content));
 
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());

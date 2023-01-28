@@ -1,9 +1,7 @@
 package com.example.planalife.ui.home;
 
 import android.app.AlertDialog;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +20,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class TodoAdapter extends BaseAdapter {
-    private ArrayList todoList;
-    private LayoutInflater inflater;
+    private final ArrayList todoList;
+    private final LayoutInflater inflater;
 
     public TodoAdapter(ArrayList todoList, Context context) {
         this.todoList = todoList;
@@ -82,64 +80,49 @@ public class TodoAdapter extends BaseAdapter {
             }
         });
 
-        completeButton.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
+        completeButton.setOnLongClickListener(v -> {
 
-                final int selectedItemPosition = position;
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                builder.setTitle("Confirmation de suppression");
-                builder.setMessage("Êtes-vous sûr de vouloir supprimer cet élément?");
-                builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+            final int selectedItemPosition = position;
+            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+            builder.setTitle("Confirmation de suppression");
+            builder.setMessage("Êtes-vous sûr de vouloir supprimer cet élément?");
+            builder.setPositiveButton("Oui", (dialog, which) -> {
+                todoList.remove(selectedItemPosition);
+                notifyDataSetChanged();
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        todoList.remove(selectedItemPosition);
-                        notifyDataSetChanged();
-
-                        try {
-                            FileInputStream fis = parent.getContext().openFileInput("data.txt");
-                            InputStreamReader isr = new InputStreamReader(fis);
-                            BufferedReader br = new BufferedReader(isr);
-                            StringBuilder sb = new StringBuilder();
-                            String line;
-                            int currentLine = 0;
-                            while ((line = br.readLine()) != null) {
-                                if (currentLine != selectedItemPosition) {
-                                    sb.append(line).append("\n");
-                                }
-                                currentLine++;
-                            }
-                            fis.close();
-
-                            File file = new File(parent.getContext().getFilesDir(), "data.txt");
-                            FileWriter writer = new FileWriter(file, false);
-                            writer.write(sb.toString());
-                            writer.flush();
-                            writer.close();
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                try {
+                    FileInputStream fis = parent.getContext().openFileInput("data.txt");
+                    InputStreamReader isr = new InputStreamReader(fis);
+                    BufferedReader br = new BufferedReader(isr);
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    int currentLine = 0;
+                    while ((line = br.readLine()) != null) {
+                        if (currentLine != selectedItemPosition) {
+                            sb.append(line).append("\n");
                         }
-
-
+                        currentLine++;
                     }
+                    fis.close();
+
+                    File file = new File(parent.getContext().getFilesDir(), "data.txt");
+                    FileWriter writer = new FileWriter(file, false);
+                    writer.write(sb.toString());
+                    writer.flush();
+                    writer.close();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
 
-
-                });
-                builder.setNegativeButton("Non", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
+            });
+            builder.setNegativeButton("Non", (dialog, which) -> dialog.dismiss());
+            AlertDialog dialog = builder.create();
+            dialog.show();
 
 
-                return true; // retournez true pour indiquer que l'événement a été géré
-            }
+            return true; // retournez true pour indiquer que l'événement a été géré
         });
 
         return view;
