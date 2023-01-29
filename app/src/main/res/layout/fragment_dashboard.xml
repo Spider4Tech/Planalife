@@ -131,6 +131,9 @@ tools:context=".ui.Calendar.CalendarFragment">
     android:layout_marginLeft="1dp"
     android:numColumns="7"
     android:stretchMode="columnWidth"
-    android:verticalSpacing="1dp"></GridView>
+    android:verticalSpacing="1dp">
+
+
+</GridView>
 
 </LinearLayout>

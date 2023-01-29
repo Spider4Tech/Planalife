@@ -1,5 +1,9 @@
 package com.example.planalife;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,8 +14,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.planalife.ui.CalendarAdapter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.Calendar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,6 +65,21 @@ public class testingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.todo_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_testing, container, false);
+
+        System.out.println("before");
+        FloatingActionButton fab = view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "pomme", Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
+
+
+
+        return view;
     }
 }
