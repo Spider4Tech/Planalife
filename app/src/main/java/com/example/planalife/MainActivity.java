@@ -11,14 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.planalife.databinding.ActivityMainBinding;
 import com.example.planalife.ui.Calendar.CalendarFragment;
 import com.example.planalife.ui.home.HomeFragment;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.games.Games;
-import com.google.android.gms.games.GamesClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -26,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
 
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint({"MissingInflatedId", "NonConstantResourceId"})
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
